@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
 
 import requests
 import json
@@ -22,8 +20,6 @@ from sqlalchemy import Column, Integer, String, Float, DateTime
 from sqlalchemy.schema import Sequence
 
 
-# In[2]:
-
 
 data = []
 
@@ -31,7 +27,7 @@ headers = {'Authorization': 'Bearer %s' % api_key}
 
 url='https://api.yelp.com/v3/businesses/search'
 
-print('Downloading Yelp Data...')
+print('Downloading Yelp Data...',flush=True)
 
 for offset in range(0, 1000, 50):
     
@@ -50,10 +46,9 @@ for offset in range(0, 1000, 50):
         print('400 Bad Request')
         break
         
-print(f'Yelp data downloaded...  There are {len(data)} records...')
+print(f'Yelp data downloaded...  There are {len(data)} records...',flush=True)
 
 
-# In[3]:
 
 
 i=0
@@ -74,10 +69,8 @@ for places in data:
         yelp_list.append(business_dict)
     i+=1
     
-print('yelp_list with needed data has been built.')
 
 
-# In[4]:
 
 
 yelp_df=pd.DataFrame(yelp_list)
@@ -85,14 +78,12 @@ yelp_df['Index']=yelp_df.index
 yelp_df=yelp_df[['Index','YelpID','Name','Latitude','Longitude','Address','Rating','Reviews']]
 yelp_df.to_csv("DataFiles/YelpData.csv")
 
-print('Yelp DataFrame now stored in memory as "yelp_df" and csv "YelpData.csv" has been saved in DataFiles folder.')
-print('---------------')
+print('Yelp DataFrame now stored in memory as "yelp_df" and csv "YelpData.csv" has been saved in DataFiles folder.',flush=True)
+print('---------------',flush=True)
 
 
-# In[5]:
 
-
-print('Matching Yelp data list to Google API...   This will take some time, as we match each record...')
+print('Matching Yelp data list to Google API...   This will take some time, as we match each record...',flush=True)
 
 url = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?'
 google_data=[]
@@ -115,10 +106,9 @@ for places in yelp_list:
     else:
         google_data.append("")
 
-print(f'Google match has been completed...  There are {len(google_data)} records')
+print(f'Google match has been completed...  There are {len(google_data)} records', flush=True)
 
 
-# In[6]:
 
 
 i=0
@@ -148,21 +138,17 @@ for places in google_data:
     
     i+=1
     
-print('google_list with needed data has been built.')
 
-
-# In[7]:
 
 
 google_df=pd.DataFrame(google_list)
 google_df.to_csv('DataFiles/GoogleData.csv')
 
 
-print('Google DataFrame now stored in memory as "google_df" and csv "GoogleData.csv" has been saved in DataFiles folder.')
-print('---------------')
+print('Google DataFrame now stored in memory as "google_df" and csv "GoogleData.csv" has been saved in DataFiles folder.',flush=True)
+print('---------------',flush=True)
 
 
-# In[8]:
 
 
 i - 0
@@ -178,14 +164,13 @@ for i in range(len('yelp_list')):
 compare_df = pd.DataFrame(compare_list)
 compare_df.to_csv('DataFiles/compare.csv')
 
-print('"compare_df" has been stored in memory and csv "compare.csv" has been saved in DataFiles folder to allow easy comparison between Yelp and Google data.')
-print('---------------')
+print('"compare_df" has been stored in memory and csv "compare.csv" has been saved in DataFiles folder to allow easy comparison between Yelp and Google data.',flush=True)
+print('---------------',flush=True)
 
 
-# In[9]:
 
 
-print('Matching Yelp data list to Minneapolis Health Inspection API...   This will take some time, as we match each record...')
+print('Matching Yelp data list to Minneapolis Health Inspection API...   This will take some time, as we match each record...',flush=True)
 
 inspection_data=[]
 
@@ -217,10 +202,9 @@ for records in yelp_list:
     if response !="":
         inspection_data += response.json()['features']
     
-print(f'Inspection data match has been completed...  There are {len(inspection_data)} records')
+print(f'Inspection data match has been completed...  There are {len(inspection_data)} records',flush=True)
 
 
-# In[10]:
 
 
 inspection_data_list = []
@@ -229,19 +213,14 @@ for records in inspection_data:
     item = records['attributes']
     inspection_data_list.append(item)
     
-print('inspection_data_list with needed data has been built.')
 
 
-# In[11]:
 
 
 inspections_df = pd.DataFrame(inspection_data_list)
 inspections_df
 inspections_df.to_csv('DataFiles/InspectionsData.csv')
 
-print('Inspections DataFrame now stored in memory as "inspections_df" and csv "InspectionsData.csv" has been saved in DataFiles folder.')
-print('---------------')
-
-
-# In[12]:
+print('Inspections DataFrame now stored in memory as "inspections_df" and csv "InspectionsData.csv" has been saved in DataFiles folder.',flush=True)
+print('---------------',flush=True)
 
