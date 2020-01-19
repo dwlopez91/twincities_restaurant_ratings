@@ -70,7 +70,7 @@ def QueryFighterAircraft():
     # Return the jsonified result. 
     return jsonify(all_aircraft)
 
-@app.route("/")
+@app.route("/health")
 def QueryPopulation():
     ''' Query the database for population numbers and return the results as a JSON. '''
 
@@ -98,29 +98,6 @@ def TestRoute():
 
     return "This is the test route!"
 
-@app.route("/dictionary")
-def DictionaryRoute():
-    ''' This function returns a jsonified dictionary. Ideally we'd create 
-        that dictionary from a database query. '''
-
-    dict = { "Tequila": 10,
-             "Beer": 2,
-             "Red Wine": 8,
-             "White Wine": 1}
-    
-    return jsonify(dict) # Return the jsonified version of the dictionary
-
-@app.route("/dict")
-def DictRoute():
-    ''' This seems to work in the latest versions of Chrome. But it's WRONG to
-        return a dictionary (or any Python-specific datatype) without jsonifying
-        it first! '''        
-
-    dict = { "one": 1,
-             "two": 2,
-             "three": 3}
-    
-    return dict # Don't return a dictionary! 
 
 
 # This statement is required for Flask to do its job. 
