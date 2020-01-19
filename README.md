@@ -10,7 +10,7 @@ To set up the back end:
             api_key = {yelp api key}
             google_key = {google api key}
 
-        3) Run the API_Dowloader.py python file
+        3) Run the API_Dowloader.py python file in the terminal.
 
         4) In PostgresSQL, run the PostgresSQL_Schema script
 
