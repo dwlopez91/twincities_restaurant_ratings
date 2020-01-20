@@ -16,7 +16,7 @@ var layers = {
 // Create the map with our layers
 var map = L.map("map-id", {
   center: [44.9778, -93.2650],
-  zoom: 12,
+  zoom: 18,
   layers: [
     layers.Yelp,
     layers.Google,
@@ -35,27 +35,27 @@ var overlays = {
 
 L.control.layers(null, overlays).addTo(map);
 
-// ** //
+** //
 
-var ricons = {
-  Yelp: L.ExtraMarkers.icon({
-    icon: "tbd/ yelp icon", 
-    iconColor: "Red",
-    markerColor: "tbd",
-    shape: "tbd"
-  }),
+// var ricons = {
+//   Yelp: L.ExtraMarkers.icon({
+//     icon: "tbd/ yelp icon", 
+//     iconColor: "Red",
+//     markerColor: "tbd",
+//     shape: "tbd"
+//   }),
 
-  Google: L.ExtraMarkers.icon({
-    icon: "tbd/google icon",
-    iconColor: "Green", 
-    markerColor: "tbd", 
-    shape: "tbd"
-  }),
+//   Google: L.ExtraMarkers.icon({
+//     icon: "tbd/google icon",
+//     iconColor: "Green", 
+//     markerColor: "tbd", 
+//     shape: "tbd"
+//   }),
 
-  Health: L.ExtraMarkers.icon({
-    icon: "tbd",
-    iconColor:"Blue",
-    markerColor: "tbd",
-    shape: "tbd"
-  }),
-}
+//   Health: L.ExtraMarkers.icon({
+//     icon: "tbd",
+//     iconColor:"Blue",
+//     markerColor: "tbd",
+//     shape: "tbd"
+//   }),
+// }
