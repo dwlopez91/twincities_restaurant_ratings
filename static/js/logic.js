@@ -37,25 +37,36 @@ L.control.layers(null, overlays).addTo(map);
 
 // ** //
 
-var ricons = {
-  Yelp: L.ExtraMarkers.icon({
-    icon: "tbd/ yelp icon", 
-    iconColor: "Red",
-    markerColor: "tbd",
-    shape: "tbd"
-  }),
+// var ricons = {
+//   Yelp: L.ExtraMarkers.icon({
+//     icon: "tbd/ yelp icon", 
+//     iconColor: "Red",
+//     markerColor: "tbd",
+//     shape: "tbd"
+//   }),
 
-  Google: L.ExtraMarkers.icon({
-    icon: "tbd/google icon",
-    iconColor: "Green", 
-    markerColor: "tbd", 
-    shape: "tbd"
-  }),
+//   Google: L.ExtraMarkers.icon({
+//     icon: "tbd/google icon",
+//     iconColor: "Green", 
+//     markerColor: "tbd", 
+//     shape: "tbd"
+//   }),
 
-  Health: L.ExtraMarkers.icon({
-    icon: "tbd",
-    iconColor:"Blue",
-    markerColor: "tbd",
-    shape: "tbd"
-  }),
-}
+//   Health: L.ExtraMarkers.icon({
+//     icon: "tbd",
+//     iconColor:"Blue",
+//     markerColor: "tbd",
+//     shape: "tbd"
+//   }),
+// };
+
+fetch('/yelp_data')
+    .then(function (results) {
+        return results.json(); // But parse it as JSON this time
+    })
+    .then(function (json) {
+        console.log('GET response as JSON:');
+        console.log(json); // Here’s our JSON object
+    });
+
+    

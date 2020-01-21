@@ -2,6 +2,7 @@
 from flask import Flask
 from flask import render_template 
 from flask import jsonify
+from flask import request
 
 # Import the functions we need from SQL Alchemy
 import sqlalchemy
@@ -11,7 +12,7 @@ from sqlalchemy import create_engine
 
 # Define the database connection parameters
 username = 'postgres'  # Ideally this would come from config.py (or similar)
-password = 'password'  # Ideally this would come from config.py (or similar)
+password = 'postgres'  # Ideally this would come from config.py (or similar)
 database_name = 'Minneapolis_Restaurants' # Created in Week 9, Night 1, Exercise 08-Stu_CRUD 
 connection_string = f'postgresql://{username}:{password}@localhost:5432/{database_name}'
 
@@ -38,7 +39,7 @@ def IndexRoute():
     webpage = render_template("index.html")
     return webpage
 
-@app.route("/yelp_data")
+@app.route("/yelp_data", methods=['GET', 'POST'])
 def YelpDataRoute():
 
     # Choose the table we wish to use
@@ -65,8 +66,8 @@ def YelpDataRoute():
     # Return the jsonified result. 
     return jsonify(yelp_reviews)
     
-@app.route("/yelp")
-def GoogleRoute():
+@app.route("/yelp", methods=['GET', 'POST'])
+def YelpRoute():
 
     # Note that this call to render template passes in the title parameter. 
     # That title parameter is a 'Shirley' variable that could be called anything 
