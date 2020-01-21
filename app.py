@@ -3,6 +3,7 @@ from flask import Flask
 from flask import render_template 
 from flask import jsonify
 from flask import request
+from config import password
 
 # Import the functions we need from SQL Alchemy
 import sqlalchemy
@@ -12,7 +13,7 @@ from sqlalchemy import create_engine
 
 # Define the database connection parameters
 username = 'postgres'  # Ideally this would come from config.py (or similar)
-password = 'postgres'  # Ideally this would come from config.py (or similar)
+# password = ''  # Ideally this would come from config.py (or similar)
 database_name = 'Minneapolis_Restaurants' # Created in Week 9, Night 1, Exercise 08-Stu_CRUD 
 connection_string = f'postgresql://{username}:{password}@localhost:5432/{database_name}'
 
