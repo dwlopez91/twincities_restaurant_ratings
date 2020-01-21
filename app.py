@@ -59,7 +59,7 @@ def YelpDataRoute():
         dict["yelp_name"] = table.yelp_name
         dict["latitude"] = table.latitude
         dict["longitude"] = table.longitude
-        dict["rating"] = table.address
+        dict["address"] = table.address
         dict["rating"] = table.rating
         dict["reviews"] = table.reviews
         yelp_reviews.append(dict)
