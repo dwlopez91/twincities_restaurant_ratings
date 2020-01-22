@@ -42,6 +42,10 @@ def IndexRoute():
 
 @app.route("/yelp_data", methods=['GET', 'POST'])
 def YelpDataRoute():
+    
+    engine = create_engine(connection_string)
+    base = automap_base()
+    base.prepare(engine, reflect=True)
 
     # Choose the table we wish to use
     table = base.classes.yelpdata
@@ -49,7 +53,7 @@ def YelpDataRoute():
     # Open a session, run the query, and then close the session again
     session = Session(engine)
     results = session.query(table.yelpid, table.yelp_name, table.latitude, table.longitude, table.address, table.rating, table.reviews).all()
-    session.close 
+    session.close()
 
     # Create a list of dictionaries, with each dictionary containing one row from the query. 
     yelp_reviews = []
@@ -69,7 +73,7 @@ def YelpDataRoute():
     
 @app.route("/yelp", methods=['GET', 'POST'])
 def YelpRoute():
-
+    
     # Note that this call to render template passes in the title parameter. 
     # That title parameter is a 'Shirley' variable that could be called anything 
     # we want. But, since we're using it to specify the page title, we call it 
@@ -96,7 +100,7 @@ def YelpRoute():
     # # Return the jsonified result. 
     # return jsonify(all_aircraft)
 
-@app.route("/health")
+@app.route("/health", methods=['GET', 'POST'])
 def HealthRoute():
 
     # Note that this call to render template passes in the title parameter. 
@@ -106,24 +110,32 @@ def HealthRoute():
     webpage = render_template("health.html", title_we_want="Minneapolis Restaurant Health Inspection Reports")
     return webpage
 
-    # ''' Query the database for population numbers and return the results as a JSON. '''
+    # Create a list of dictionaries, with each dictionary containing one row from the query. 
+    
+@app.route("/health_data")
+def HealthDataRoute():
+    
+    engine = create_engine(connection_string)
+    base = automap_base()
+    base.prepare(engine, reflect=True)
+    
+    table = base.classes.inspectiondata
 
-    # # Open a session, run the query, and then close the session again
-    # session = Session(engine)
-    # results = session.query(table.country, table.iso3, table.totalpopulation).all()
-    # session.close 
+    # Open a session, run the query, and then close the session again
+    session = Session(engine)
+    results = session.query(table.businessname).all()
+    session.close()
 
-    # # Create a list of dictionaries, with each dictionary containing one row from the query. 
-    # all_population = []
-    # for country, iso3, totalpopulation in results:
-    #     dict = {}
-    #     dict["country"] = country
-    #     dict["iso3"] = iso3
-    #     dict["totalpopulation"] = totalpopulation
-    #     all_population.append(dict)
+    # Create a list of dictionaries, with each dictionary containing one row from the query. 
+    health_array = []
+    for table.businessname in results:
+        dict = {}
+        dict["businessname"] = table.businessname
+        
+        health_array.append(dict)
 
-    # # Return the jsonified result. 
-    # return jsonify(all_population)
+    # Return the jsonified result. 
+    return jsonify(health_array)
 
 @app.route("/test")
 def TestRoute():
