@@ -41,16 +41,29 @@ fetch('/yelp_data')
     })
     .then(function (json) {
         console.log('GET response as JSON:');
-        console.log(json); // Here’s our JSON object
+        console.log(json); // Here's our JSON object
         // Create a circle and pass in some initial options
         for(i=0; i < json.length; i++) {
+            var rating = json[i].rating
+            function color_swap(rating){
+                if (json[i].rating >= 4){
+                    return 'green';
+                } else if (json[i].rating <9 && json[i].rating >= 3){
+                    return 'yellow';
+                } else if (json[i].rating <= 2.9){
+                    return "red";
+                }}
+                // //
             L.circle([json[i].latitude, json[i].longitude], {
-                fillColor: "green",
+                fillColor: color_swap(rating),
                 opacity: 0.5,
-                color: "black",
+                color: color_swap(rating),
                 fillOpacity: 0.5,
-                radius: (json[i].reviews/5)
+                radius: (json[i].reviews/10)
             }).addTo(map).bindPopup("<h2><center><u>" + json[i].yelp_name + "</u></center></h2><center><h3><i>" + json[i].address + "</i></h3></center><center><h4> Yelp Rating: " + json[i].rating +"</h4></center><center><h4>" + json[i].reviews + " Yelp reviews</h4></center>")
-    }});
+    }
+});
+
+
 
 // need a for loop to grab data from the array and put to variables?
