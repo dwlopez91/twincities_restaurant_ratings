@@ -77,6 +77,44 @@ def YelpRoute():
     webpage = render_template("yelp.html")
     return webpage
 
+
+@app.route("/google_data", methods=['GET', 'POST'])
+def GoogleDataRoute():
+    
+    engine = create_engine(connection_string)
+    base = automap_base()
+    base.prepare(engine, reflect=True)
+
+    # Choose the table we wish to use
+    table = base.classes.googledata
+
+    # Open a session, run the query, and then close the session again
+    session = Session(engine)
+    results = session.query(table.yelpid, table.yelp_name, table.latitude, table.longitude, table.address, table.rating, table.reviews).all()
+    session.close()
+
+    # Create a list of dictionaries, with each dictionary containing one row from the query. 
+    google_reviews = []
+    for table.googleplacesid, table.google_name, table.latitude, table.longitude, table.address, table.rating, table.reviews in results:
+        dict = {}
+        dict["google_id"] = table.googleplacesid
+        dict["yelp_name"] = table.google_name
+        dict["latitude"] = table.latitude
+        dict["longitude"] = table.longitude
+        dict["address"] = table.address
+        dict["rating"] = table.rating
+        dict["reviews"] = table.reviews
+        google_reviews.append(dict)
+
+    # Return the jsonified result. 
+    return jsonify(google_reviews)
+    
+@app.route("/google", methods=['GET', 'POST'])
+def GoogleRoute():
+     
+    webpage = render_template("google.html")
+    return webpage
+
 @app.route("/health", methods=['GET', 'POST'])
 def HealthRoute():
 
@@ -92,26 +130,29 @@ def HealthRoute():
 @app.route("/health_data")
 def HealthDataRoute():
     
+    #need this in order to refresh the page
     engine = create_engine(connection_string)
     base = automap_base()
     base.prepare(engine, reflect=True)
-    
-    table = base.classes.inspectiondata
+    table = base.classes.cleanedinspectiondata
 
     # Open a session, run the query, and then close the session again
     session = Session(engine)
-    results = session.query(table.businessname).all()
+    results = session.query(table.businessname, table.dateifinspection, table.fulladdress, table.inspectiontype, table.inspectionscore).all()
     session.close()
 
-    # Create a list of dictionaries, with each dictionary containing one row from the query. 
+    # Create a list of dictionaries, with each dictionary containing one row from the query.
     health_array = []
-    for table.businessname in results:
+    for table.businessname, table.dateifinspection, table.fulladdress, table.inspectiontype, table.inspectionscore in results:
         dict = {}
         dict["businessname"] = table.businessname
-        
+        dict["dateifinspection"] = table.dateifinspection
+        dict["fulladdress"] = table.fulladdress
+        dict["inspectiontype"] = table.inspectiontype
+        dict["inspectionscore"] = table.inspectionscore
         health_array.append(dict)
-
-    # Return the jsonified result. 
+        
+    # Return the jsonified result.
     return jsonify(health_array)
 
 @app.route("/test")
