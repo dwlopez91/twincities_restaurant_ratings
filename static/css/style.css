@@ -1,18 +1,19 @@
 html,
 body,
 #map-id {
-  height: 100%;
+  height: 560px;
   padding: 0;
   margin: 0;
 }
 
-.leaflet-popup-content-wrapper {
-  background-color: "yellow"
-}
-
 .navbar {
-  background-color:yellow;
-  color:red;
+  background-color:lightblue;
+  color: darkblue;
+  text-align:center;
+  padding-top:30px;
+  padding-bottom: 30px;
+  margin-top:0px;
+  margin-bottom:0px
 }
 
 .navbar-nav {
@@ -21,24 +22,26 @@ body,
 }
 
 .navbar li {
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-right: 60px;
+  margin-left: 60px;
   cursor: pointer; 
   display:inline;
-  font-size:200%;
+  font-size:150%;
 }
+
 .nav-title {
   font-family:Apple Chancery, cursive;
-  font-size:150%
+  font-size:250%;
+  text-align:center;
+  margin:0px;
+  padding:0px
 }
-.navbar .container-fluid>.navbar-header {
+
+.nav-title>h1 {
+  text-align:center;
+}
+
+/* .navbar .container-fluid>.navbar-header {
   float: top;
   margin-right: 10px;
-}
-.navbar .navbar-nav {
-  float: top;
-  margin: 5px;
-}
-.nav>li {
-  float: top;
-}
+} */

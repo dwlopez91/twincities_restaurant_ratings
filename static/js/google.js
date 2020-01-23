@@ -15,33 +15,33 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 map.zoomControl.remove();
 
-fetch('/health_data')
-    .then(function (health_array) {
-        return health_array.json(); // But parse it as JSON this time
+fetch('/google_data')
+    .then(function (google_reviews) {
+        return google_reviews.json(); // But parse it as JSON this time
     })
     .then(function (json) {
         console.log('GET response as JSON:');
         console.log(json); // Here's our JSON object
         // Create a circle and pass in some initial options
         for(i=0; i < json.length; i++) {
-            var inspectionscore = json[i].inspectionscore
-            function color_swap(inspectionscore){
-              if (inspectionscore >= 95){
+            var rating = json[i].rating
+            function color_swap(rating){
+              if (rating >= 4.5){
                   return 'green';
-              } else if (inspectionscore >=90){
+              } else if (rating >= 4){
                   return 'yellowgreen';
-              } else if (inspectionscore >= 85){
+              } else if (rating >= 3){
                   return "orange";
               } else {
                   return 'red';
               }}
                 // //
             L.circle([json[i].latitude, json[i].longitude], {
-                fillColor: color_swap(inspectionscore),
+                fillColor: color_swap(rating),
                 fillOpacity: 0.75,
-                color: color_swap(inspectionscore),
-                radius: 30
-            }).addTo(map).bindPopup("<h2><center><u>" + json[i].businessname + "</u></center></h2><center><h3><i>" + json[i].fulladdress + "</i></h3></center><center><h4> Highest Health Inspection Score: " + json[i].inspectionscore +"</h4></center><center><h4>Date of Inspection: " + json[i].dateifinspection +"</h4></center>")            
+                color: color_swap(rating),
+                radius: (json[i].reviews/5)
+            }).addTo(map).bindPopup("<h2><center><u>" + json[i].google_name + "</u></center></h2><center><h3><i>" + json[i].address + "</i></h3></center><center><h4> Google Rating: " + json[i].rating +"</h4></center><center><h4>" + json[i].reviews + " Google reviews</h4></center>")            
     }
   });
 

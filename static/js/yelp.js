@@ -15,23 +15,6 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 map.zoomControl.remove();
 
-// // Initialize all of the LayerGroups we'll be using
-// var layers = {
-//   Yelp: new L.LayerGroup(),
-//   Google: new L.LayerGroup(),
-//   Health: new L.LayerGroup(),
-
-// };
-
-
-// var overlays = {
-//   "Yelp": layers.Yelp,
-//   "Google": layers.Google,
-//   "Health Inspections": layers.Health
-// };
-
-//L.control.layers(null, overlays).addTo(map);
-
 fetch('/yelp_data')
     .then(function (yelp_reviews) {
         return yelp_reviews.json(); // But parse it as JSON this time
@@ -55,7 +38,7 @@ fetch('/yelp_data')
                 // //
             L.circle([json[i].latitude, json[i].longitude], {
                 fillColor: color_swap(rating),
-                fillOpacity: 0.5,
+                fillOpacity: 0.75,
                 color: color_swap(rating),
                 radius: (json[i].reviews/5)
             }).addTo(map).bindPopup("<h2><center><u>" + json[i].yelp_name + "</u></center></h2><center><h3><i>" + json[i].address + "</i></h3></center><center><h4> Yelp Rating: " + json[i].rating +"</h4></center><center><h4>" + json[i].reviews + " Yelp reviews</h4></center>")            
@@ -64,14 +47,7 @@ fetch('/yelp_data')
 
 map.on('popupopen', function(centerMarker) {
   var cM = map.project(centerMarker.popup._latlng);
-  cM.y -= centerMarker.popup._container.clientHeight/3
+  cM.y -= centerMarker.popup._container.clientHeight/2
   map.setView(map.unproject(cM),15, {animate: true});
 });
 
-map.on('mouseover', function (e) {
-    this.openPopup();
-});
-
-map.on('mouseout', function (e) {
-    this.closePopup();
-});

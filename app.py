@@ -3,7 +3,7 @@ from flask import Flask
 from flask import render_template 
 from flask import jsonify
 from flask import request
-from config import password
+from config import password, username
 
 # Import the functions we need from SQL Alchemy
 import sqlalchemy
@@ -12,22 +12,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 
 # Define the database connection parameters
-username = 'postgres'  # Ideally this would come from config.py (or similar)
-# password = ''  # Ideally this would come from config.py (or similar)
 database_name = 'Minneapolis_Restaurants' # Created in Week 9, Night 1, Exercise 08-Stu_CRUD 
 connection_string = f'postgresql://{username}:{password}@localhost:5432/{database_name}'
 
-# Connect to the database
-engine = create_engine(connection_string)
-base = automap_base()
-base.prepare(engine, reflect=True)
-
-# # Choose the table we wish to use
-# table = base.classes.yelpdata
-# print("table: ", table)
-
-# Instantiate the Flask application. (Chocolate cake recipe.)
-# This statement is required for Flask to do its job. 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # Effectively disables page caching
 
@@ -77,7 +64,6 @@ def YelpRoute():
     webpage = render_template("yelp.html")
     return webpage
 
-
 @app.route("/google_data", methods=['GET', 'POST'])
 def GoogleDataRoute():
     
@@ -90,7 +76,7 @@ def GoogleDataRoute():
 
     # Open a session, run the query, and then close the session again
     session = Session(engine)
-    results = session.query(table.yelpid, table.yelp_name, table.latitude, table.longitude, table.address, table.rating, table.reviews).all()
+    results = session.query(table.googleplacesid, table.google_name, table.latitude, table.longitude, table.address, table.rating, table.reviews).all()
     session.close()
 
     # Create a list of dictionaries, with each dictionary containing one row from the query. 
@@ -98,7 +84,7 @@ def GoogleDataRoute():
     for table.googleplacesid, table.google_name, table.latitude, table.longitude, table.address, table.rating, table.reviews in results:
         dict = {}
         dict["google_id"] = table.googleplacesid
-        dict["yelp_name"] = table.google_name
+        dict["google_name"] = table.google_name
         dict["latitude"] = table.latitude
         dict["longitude"] = table.longitude
         dict["address"] = table.address
@@ -118,15 +104,9 @@ def GoogleRoute():
 @app.route("/health", methods=['GET', 'POST'])
 def HealthRoute():
 
-    # Note that this call to render template passes in the title parameter. 
-    # That title parameter is a 'Shirley' variable that could be called anything 
-    # we want. But, since we're using it to specify the page title, we call it 
-    # what we do. The name has to match the parameter used in other.html. 
-    webpage = render_template("health.html", title_we_want="Minneapolis Restaurant Health Inspection Reports")
+    webpage = render_template("health.html")
     return webpage
 
-    # Create a list of dictionaries, with each dictionary containing one row from the query. 
-    
 @app.route("/health_data")
 def HealthDataRoute():
     
@@ -150,8 +130,10 @@ def HealthDataRoute():
         dict["fulladdress"] = table.fulladdress
         dict["inspectiontype"] = table.inspectiontype
         dict["inspectionscore"] = table.inspectionscore
+        dict["latitude"] = table.latitude
+        dict["longitude"] = table.longitude
         health_array.append(dict)
-        
+
     # Return the jsonified result.
     return jsonify(health_array)
 
@@ -161,8 +143,6 @@ def TestRoute():
         the Flask server is working. '''
 
     return "This is the test route!"
-
-
 
 # This statement is required for Flask to do its job. 
 # Think of it as chocolate cake recipe. 
