@@ -38,10 +38,11 @@ fetch('/health_data')
                 // //
             L.circle([json[i].latitude, json[i].longitude], {
                 fillColor: color_swap(inspectionscore),
-                fillOpacity: 0.75,
-                color: color_swap(inspectionscore),
-                radius: 30
-            }).addTo(map).bindPopup("<h2><center><u>" + json[i].businessname + "</u></center></h2><center><h3><i>" + json[i].fulladdress + "</i></h3></center><center><h4> Highest Health Inspection Score: " + json[i].inspectionscore +"</h4></center><center><h4>Date of Inspection: " + json[i].dateifinspection +"</h4></center>")            
+                fillOpacity: 0.5,
+                color: "black",
+                stroke:.0001,
+                radius: 75
+            }).addTo(map).bindPopup("<h2><center><u>" + json[i].businessname + "</u></center></h2><center><h3><i>" + json[i].fulladdress + "</i></h3></center><center><h4> Highest Health Inspection Score: " + json[i].inspectionscore +"</h4></center><center><h4>Date of Inspection:<br>" + json[i].dateifinspection +"</h4></center>")            
     }
   });
 

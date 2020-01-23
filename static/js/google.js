@@ -38,9 +38,10 @@ fetch('/google_data')
                 // //
             L.circle([json[i].latitude, json[i].longitude], {
                 fillColor: color_swap(rating),
-                fillOpacity: 0.75,
-                color: color_swap(rating),
-                radius: (json[i].reviews/5)
+                fillOpacity: 0.5,
+                color: "black",
+                stroke:.0001,
+                radius: (json[i].reviews/7.5)
             }).addTo(map).bindPopup("<h2><center><u>" + json[i].google_name + "</u></center></h2><center><h3><i>" + json[i].address + "</i></h3></center><center><h4> Google Rating: " + json[i].rating +"</h4></center><center><h4>" + json[i].reviews + " Google reviews</h4></center>")            
     }
   });

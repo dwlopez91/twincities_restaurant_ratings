@@ -114,16 +114,17 @@ def HealthDataRoute():
     engine = create_engine(connection_string)
     base = automap_base()
     base.prepare(engine, reflect=True)
+
     table = base.classes.cleanedinspectiondata
 
     # Open a session, run the query, and then close the session again
     session = Session(engine)
-    results = session.query(table.businessname, table.dateifinspection, table.fulladdress, table.inspectiontype, table.inspectionscore).all()
+    results = session.query(table.businessname, table.dateifinspection, table.fulladdress, table.inspectiontype, table.inspectionscore, table.latitude, table.longitude).all()
     session.close()
 
     # Create a list of dictionaries, with each dictionary containing one row from the query.
     health_array = []
-    for table.businessname, table.dateifinspection, table.fulladdress, table.inspectiontype, table.inspectionscore in results:
+    for table.businessname, table.dateifinspection, table.fulladdress, table.inspectiontype, table.inspectionscore, table.latitude, table.longitude in results:
         dict = {}
         dict["businessname"] = table.businessname
         dict["dateifinspection"] = table.dateifinspection
