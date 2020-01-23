@@ -9,3 +9,36 @@ body,
 .leaflet-popup-content-wrapper {
   background-color: "yellow"
 }
+
+.navbar {
+  background-color:yellow;
+  color:red;
+}
+
+.navbar-nav {
+  margin-right:0;
+  margin-left:auto;
+}
+
+.navbar li {
+  margin-right: 10px;
+  margin-left: 10px;
+  cursor: pointer; 
+  display:inline;
+  font-size:200%;
+}
+.nav-title {
+  font-family:Apple Chancery, cursive;
+  font-size:150%
+}
+.navbar .container-fluid>.navbar-header {
+  float: top;
+  margin-right: 10px;
+}
+.navbar .navbar-nav {
+  float: top;
+  margin: 5px;
+}
+.nav>li {
+  float: top;
+}

@@ -1,39 +1,36 @@
-var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
-  attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
-  zoom: 22,
-  id: "mapbox.light",
-  accessToken: API_KEY
-});
-
-// Initialize all of the LayerGroups we'll be using
-var layers = {
-  Yelp: new L.LayerGroup(),
-  Google: new L.LayerGroup(),
-  Health: new L.LayerGroup(),
-
-};
-
-// Create the map with our layers
+// Adding tile layer
 var map = L.map("map-id", {
   center: [44.9602, -93.2659],
-  zoom: 12,
-  layers: [
-    layers.Yelp,
-    layers.Google,
-    layers.Health
-  ]
+  zoom: 13,
 });
 
-// Add our 'lightmap' tile layer to the map
-lightmap.addTo(map);
+L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+  attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+  zoom:13,
+  maxZoom: 15,
+  minZoom:13,
+  id: "mapbox.streets",
+  accessToken: API_KEY
+}).addTo(map);
 
-var overlays = {
-  "Yelp": layers.Yelp,
-  "Google": layers.Google,
-  "Health Inspections": layers.Health
-};
+map.zoomControl.remove();
 
-L.control.layers(null, overlays).addTo(map);
+// // Initialize all of the LayerGroups we'll be using
+// var layers = {
+//   Yelp: new L.LayerGroup(),
+//   Google: new L.LayerGroup(),
+//   Health: new L.LayerGroup(),
+
+// };
+
+
+// var overlays = {
+//   "Yelp": layers.Yelp,
+//   "Google": layers.Google,
+//   "Health Inspections": layers.Health
+// };
+
+//L.control.layers(null, overlays).addTo(map);
 
 fetch('/yelp_data')
     .then(function (yelp_reviews) {
@@ -46,24 +43,35 @@ fetch('/yelp_data')
         for(i=0; i < json.length; i++) {
             var rating = json[i].rating
             function color_swap(rating){
-                if (json[i].rating >= 4){
-                    return 'green';
-                } else if (json[i].rating <9 && json[i].rating >= 3){
-                    return 'yellow';
-                } else if (json[i].rating <= 2.9){
-                    return "red";
-                }}
+              if (rating >= 4.5){
+                  return 'green';
+              } else if (rating >= 4){
+                  return 'yellowgreen';
+              } else if (rating >= 3){
+                  return "orange";
+              } else {
+                  return 'red';
+              }}
                 // //
             L.circle([json[i].latitude, json[i].longitude], {
                 fillColor: color_swap(rating),
-                opacity: 0.5,
-                color: color_swap(rating),
                 fillOpacity: 0.5,
-                radius: (json[i].reviews/10)
-            }).addTo(map).bindPopup("<h2><center><u>" + json[i].yelp_name + "</u></center></h2><center><h3><i>" + json[i].address + "</i></h3></center><center><h4> Yelp Rating: " + json[i].rating +"</h4></center><center><h4>" + json[i].reviews + " Yelp reviews</h4></center>")
+                color: color_swap(rating),
+                radius: (json[i].reviews/5)
+            }).addTo(map).bindPopup("<h2><center><u>" + json[i].yelp_name + "</u></center></h2><center><h3><i>" + json[i].address + "</i></h3></center><center><h4> Yelp Rating: " + json[i].rating +"</h4></center><center><h4>" + json[i].reviews + " Yelp reviews</h4></center>")            
     }
+  });
+
+map.on('popupopen', function(centerMarker) {
+  var cM = map.project(centerMarker.popup._latlng);
+  cM.y -= centerMarker.popup._container.clientHeight/3
+  map.setView(map.unproject(cM),15, {animate: true});
 });
 
+map.on('mouseover', function (e) {
+    this.openPopup();
+});
 
-
-// need a for loop to grab data from the array and put to variables?
+map.on('mouseout', function (e) {
+    this.closePopup();
+});

@@ -73,32 +73,9 @@ def YelpDataRoute():
     
 @app.route("/yelp", methods=['GET', 'POST'])
 def YelpRoute():
-    
-    # Note that this call to render template passes in the title parameter. 
-    # That title parameter is a 'Shirley' variable that could be called anything 
-    # we want. But, since we're using it to specify the page title, we call it 
-    # what we do. The name has to match the parameter used in other.html. 
-    webpage = render_template("yelp.html", title_we_want="Yelp Restaurant Ratings")
+     
+    webpage = render_template("yelp.html")
     return webpage
-
-    # ''' Query the database for fighter aircraft and return the results as a JSON. '''
-
-    # # Open a session, run the query, and then close the session again
-    # session = Session(engine)
-    # results = session.query(table.country, table.iso3, table.fighteraircraft).all()
-    # session.close()
-
-    # # Create a list of dictionaries, with each dictionary containing one row from the query. 
-    # all_aircraft = []
-    # for country, iso3, fighteraircraft in results:
-    #     dict = {}
-    #     dict["country"] = country
-    #     dict["iso3"] = iso3
-    #     dict["fighteraircraft"] = fighteraircraft
-    #     all_aircraft.append(dict)
-
-    # # Return the jsonified result. 
-    # return jsonify(all_aircraft)
 
 @app.route("/health", methods=['GET', 'POST'])
 def HealthRoute():
