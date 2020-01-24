@@ -26,11 +26,11 @@ fetch('/health_data')
         for(i=0; i < json.length; i++) {
             var inspectionscore = json[i].inspectionscore
             function color_swap(inspectionscore){
-              if (inspectionscore >= 95){
+              if (inspectionscore >= 90){
                   return 'green';
-              } else if (inspectionscore >=90){
+              } else if (inspectionscore >=80){
                   return 'yellowgreen';
-              } else if (inspectionscore >= 85){
+              } else if (inspectionscore >= 70){
                   return "orange";
               } else {
                   return 'red';
@@ -42,7 +42,7 @@ fetch('/health_data')
                 color: "black",
                 stroke:.0001,
                 radius: 75
-            }).addTo(map).bindPopup("<h2><center><u>" + json[i].businessname + "</u></center></h2><center><h3><i>" + json[i].fulladdress + "</i></h3></center><center><h4> Highest Health Inspection Score: " + json[i].inspectionscore +"</h4></center><center><h4>Date of Inspection:<br>" + json[i].dateifinspection +"</h4></center>")            
+            }).addTo(map).bindPopup("<h2><center><u>" + json[i].businessname + "</u></center></h2><center><h3><i>" + json[i].fulladdress + "</i></h3></center><center><h4>Lowest Health Inspection Score: " + json[i].inspectionscore+"</h4></center>")            
     }
   });
 

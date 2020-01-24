@@ -41,7 +41,7 @@ fetch('/yelp_data')
                 fillOpacity: 0.5,
                 color: "black",
                 stroke:.0001,
-                radius: (json[i].reviews/7.5)
+                radius: (json[i].reviews/15)
             }).addTo(map).bindPopup("<h2><center><u>" + json[i].yelp_name + "</u></center></h2><center><h3><i>" + json[i].address + "</i></h3></center><center><h4> Yelp Rating: " + json[i].rating +"</h4></center><center><h4>" + json[i].reviews + " Yelp reviews</h4></center>")            
     }
   });
